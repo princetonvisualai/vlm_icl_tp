@@ -1,0 +1,15 @@
+key	path	class	gres	tp	mem	time	time_reasoning	shots	shots_short	split_jobs	short_constraint	lens_index
+qwen3vl-2b	Qwen3-VL-2B-Instruct	s	gpu:1	1	16G	24:00:00	6:00:00	0 1 2 4 8 16 32	0 1 2 4 8 16 32	0	gpu80	-
+qwen3vl-4b	Qwen3-VL-4B-Instruct	s	gpu:1	1	16G	24:00:00	6:00:00	0 1 2 4 8 16 32	0 1 2 4 8 16 32	0	gpu80	contextual_embeddings-qwen3-vl-4b
+qwen3vl-8b	Qwen3-VL-8B-Instruct	s	gpu:1	1	16G	24:00:00	6:00:00	0 1 2 4 8 16 32	0 1 2 4 8 16 32	0	gpu80	-
+qwen3vl-32b	Qwen3-VL-32B-Instruct	l	gpu:2	2	64G	24:00:00	6:00:00	0 1 2 4 8 16;32	0 1 2 4 8 16;32	1	-	contextual_embeddings-qwen3-vl-32b
+qwen3vl-235b	Qwen3-VL-235B-A22B-Instruct	l	gpu:4	4	128G	24:00:00	24:00:00	0 1 2 4 8 16;32	0 1 2 4 8 16;32	1	-	-
+qwen25vl-3b	Qwen2.5-VL-3B-Instruct	s	gpu:1	1	16G	24:00:00	24:00:00	0 1 2 4 8 16 32	0 1 2 4 8 16 32	0	gpu80	contextual_embeddings-qwen2.5-vl-3b
+qwen25vl-32b	Qwen2.5-VL-32B-Instruct	l	gpu:2	2	32G	24:00:00	24:00:00	0 1 2 4 8 16;32	0 1 2 4 8 16 32	1	-	-
+qwen35-4b	Qwen3.5-4B	s	gpu:1	1	16G	24:00:00	24:00:00	0 1 2 4 8 16 32	0 1 2 4 8 16 32	0	gpu80	-
+qwen35-27b	Qwen3.5-27B	l	gpu:1	1	32G	24:00:00	48:00:00	0 1 2 4 8 16;32	0 1 2 4 8 16 32	1	-	-
+internvl35-4b	InternVL3_5-4B	s	gpu:1	1	16G	2:00:00	24:00:00	0 1 2 4 8 16 32	0 1 2 4 8 16 32	0	gpu80	-
+internvl35-8b	InternVL3_5-8B	s	gpu:1	1	16G	24:00:00	24:00:00	0 1 2 4 8 16 32	0 1 2 4 8 16 32	0	gpu80	-
+internvl35-38b	InternVL3_5-38B	l	gpu:2	2	32G	24:00:00	24:00:00	0 1 2 4 8 16;32	0 1 2 4 8 16 32	1	-	-
+gemma4-e4b	gemma-4-E4B-it	s	gpu:1	1	16G	2:00:00	12:00:00	0 1 2 4 8 16 32	0 1 2 4 8 16 32	0	gpu80	-
+gemma4-31b	gemma-4-31B-it	l	gpu:2	2	32G	12:00:00	24:00:00	0 1 2 4 8 16;32	0 1 2 4 8 16 32	1	-	-

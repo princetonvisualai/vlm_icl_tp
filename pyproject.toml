@@ -1,0 +1,57 @@
+[project]
+name = "vlm-icl"
+version = "0.1.0"
+description = "In-context learning and LatentLens analysis of vision-language models"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "accelerate>=0.29.1",
+    "datasets>=2.19.0",
+    "einops>=0.8.2",
+    "huggingface-hub>=0.36.2",
+    "ijson>=3.2.0",
+    "matplotlib>=3.10.8",
+    "matplotlib-venn>=1.1",
+    "numpy>=1.26.4",
+    "pillow>=12.1.1",
+    "pyarrow>=15.0",
+    "qwen-vl-utils>=0.0.14",
+    "scikit-learn>=1.8.0",
+    "scipy>=1.11",
+    "seaborn>=0.13.2",
+    "sentencepiece>=0.2.1",
+    "timm>=1.0.25",
+    "torch>=2.0.0",
+    "torchvision>=0.16.0",
+    "tqdm>=4.67.3",
+]
+
+[dependency-groups]
+eval = [
+    "google-genai>=1.0",
+    "openai>=1.0",
+    "vllm==0.19.1rc1.dev341+g324a3d2bd",
+    "transformers>=5.5.0",
+]
+lens = [
+    "latentlens",
+    "transformers",
+]
+dev = ["pytest>=8.0"]
+
+[tool.uv]
+conflicts = [
+    [{ group = "eval" }, { group = "lens" }],
+]
+
+# vLLM is pinned to the nightly build the paper results were produced with.
+[[tool.uv.index]]
+name = "vllm-324a3d2"
+url = "https://wheels.vllm.ai/324a3d2bd8b5fc3f38c6d2f2cc243f747800ba28"
+explicit = true
+
+[tool.uv.sources]
+vllm = { index = "vllm-324a3d2" }
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

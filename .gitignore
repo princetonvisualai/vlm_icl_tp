@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+dist/
+build/
+.pytest_cache/
+
+# Virtual environments
+.venv*/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data (large arrow/parquet files)
+data/
+
+# Outputs (generated results, metrics, plots)
+output*/
+logs/
+
+# SLURM job logs
+slurm-*.out
+
+# Regression baselines captured from the reference repo
+dev/baselines/
+
+# Environment / secrets
+.env
+
+# Claude Code local settings and planning workspaces
+.claude/
+.work/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Personal planning notes (not part of the release)
+dev/2026-10-17_refactor_plan.md
+dev/rebuttal/
