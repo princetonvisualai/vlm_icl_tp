@@ -6,8 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Research code for in-context learning (ICL) and LatentLens analysis of vision-language models
 on the `visual_reasoning` benchmark (plus its `_stresstest`, `_lens` and `_control` variants)
-and BLINK. `README.md` is the user-facing guide: setup, data, the experiment launcher and the
-figure reproduce table.
+and BLINK (NeurIPS 2026, arXiv:2610.12942). `README.md` is a short landing page; the
+user-facing guides live in `doc/` (index: `doc/README.md`).
 
 **Models:** Qwen3-VL, Qwen3.5, Qwen2.5-VL, InternVL 3.5, Gemma 4 (HF Transformers or vLLM),
 Gemini and GPT (API).
@@ -61,7 +61,7 @@ figures/                    fig_*.py, table_accuracy.py (--results_dir, writes o
 data_hf/                    convert_blink.py, create_vr_sample.py, push_dataset.py <variant>
 slurm/                      launch.sh <experiment> <model> [tasks], job.sbatch, models.tsv
 tests/                      pytest suite (generated Arrow fixture, no GPU, no network)
-dev/                        release verification: snapshot.py, smoke run, figures_baseline.py
+dev/                        local only (gitignored): snapshot.py, smoke run, figures_baseline.py
 ```
 
 ### Model dispatch
@@ -91,7 +91,7 @@ Analysis hooks are declared in each wrapper's `capabilities` (`attentions`, `hid
 | `blink` | 14 tasks (art_style, counting, forensic_detection, ..., visual_similarity) |
 
 Splits are `simple`, `noprior` and `complex` (control: `control`, `control2`, `expand`).
-Details in `doc/DATA.md`; demo selection in `doc/ICL.md`.
+Details in `doc/DATA.md`; demo selection in `doc/ICL.md`; output layout in `doc/OUTPUT.md`.
 
 ### Output structure
 
@@ -110,7 +110,7 @@ The release refactor kept results reproducible; keep these when changing code:
   `metrics.json` schema.
 - `.venv-lens/bin/python dev/snapshot.py --check <baseline>.json` records every engine input
   of every paper entry point on CPU with fake engines and must stay byte-identical to the
-  baseline captured from the pre-release code (kept in the gitignored `dev/baselines/`).
+  baseline captured from the pre-release code (`dev/` is gitignored and exists only locally).
 
 ## File Locations
 

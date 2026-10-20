@@ -1,6 +1,6 @@
-# In-Context Learning (ICL) Sampling Logic
+# In-Context Learning
 
-This document describes the full ICL pipeline: how demonstration examples are selected, balanced, transformed, and presented to the model.
+This page describes the full ICL pipeline: how demonstration examples are selected, balanced, transformed, and presented to the model.
 
 ## Overview
 
@@ -114,7 +114,7 @@ Each selected demo's image is processed through `apply_special_mode()`:
 | `remove_image` | No effect on demos (only affects query image) |
 | `remove_image_icd` | Demo images removed (`None`) — text-only demos |
 | `blank_image` | No effect on demos (only affects query image) |
-| `blank_image_icd` | Demo images replaced with `blank.png` |
+| `blank_image_icd` | Demo images replaced with `data/visual_reasoning/blank.png` |
 | `random_icd` | Images unchanged; only answers are shuffled |
 
 For multi-image datasets (BLINK), extra images (`image2`, `image3`, `image4`) in demos receive the same special-mode treatment.
@@ -184,7 +184,7 @@ This enables measuring sensitivity to the specific choice of demonstrations. Eac
 
 ## Query-GT Guarantee (`--query_gt_demo`)
 
-When `num_icl_examples < num_unique_labels`, balanced sampling may not include any demo with the query's ground-truth label. The `--query_gt_demo` flag guarantees at least one demo shares the query's ground-truth. This is implemented via two mechanisms:
+When `num_icl_examples < num_unique_labels`, balanced sampling may not include any demo with the query's ground-truth label. The `--query_gt_demo` flag guarantees at least one demo shares the query's ground-truth. This is implemented via three mechanisms:
 
 1. **Allocation-time priority** — `select_from_demo_pool()` accepts `ensure_query_gt` and `query_gt_position` parameters. When `ensure_query_gt` is `True`, the query's GT label is moved to position 0 in the balanced allocation, guaranteeing it receives at least one slot; `query_gt_position` then places that demo. The answer-distribution and attention-distribution analyses use this path.
 2. **Post-selection swap** — `ensure_gt_demo()` checks the selected demos and, if none match the query's GT, swaps the last demo for a GT-matching candidate from the pool.

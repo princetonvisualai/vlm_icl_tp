@@ -1,18 +1,33 @@
-# DATA.md
+# Data
 
-Documentation covering data formats, storage layout, data sources (local Arrow files and the Hugging Face Hub), loading logic, filtering, sampling, image resolution, and ICL context construction.
+This page covers data formats, storage layout, data sources (local Arrow files and the Hugging Face Hub), loading logic, filtering, sampling, image resolution, and ICL context construction.
+
+## Getting the data
+
+Every experiment accepts `--data_root` and `--data_source {auto,local,hub}`.
+
+| `--data_source` | Behavior |
+|---|---|
+| `local` | Read Arrow files from `<data_root>/<dataset>` (default root: `data/`) |
+| `hub` | Read the Hub mirror of the dataset (`HUB_REPOS` in `vlm_icl/data.py`; BLINK: upstream repo) |
+| `auto` (default) | `local` if `<data_root>/<dataset>` exists or `--data_root` is given, else `hub` |
+
+- Without local files, any run with the default `auto` downloads the mirror from the Hub. SLURM jobs run with `HF_HUB_OFFLINE=1`, so place the data under `data/` or run a command with `--data_source hub` once on a node with network access before submitting.
+- `python -m data_hf.convert_blink` converts BLINK parquet files in `data/raw/blink/` to the local Arrow layout (see [BLINK Conversion Pipeline](#blink-conversion-pipeline)).
+- `python -m data_hf.push_dataset <variant>` publishes a local visual_reasoning variant to its Hub mirror (see [Hub mirrors](#hub-mirrors)).
+- `blank.png` (`data/visual_reasoning/blank.png`), used by the `blank_image*` ablation modes, must be provided by you; it is always read from the repo's `data/`, not from `--data_root`.
 
 ## Supported Datasets
 
 | Dataset | Tasks | Splits | Multi-image | Source module | Hub mirror |
 |---|---|---|---|---|---|
-| `visual_reasoning` | direction, relation, counting, shape_identification, color_identification | simple, noprior, complex | image | `vlm_icl/data.py` | `kunwang0129/visual-reasoning` |
-| `visual_reasoning_stresstest` | counting, color_identification, shape_identification, direction, relation | simple, noprior, complex (counting); complex (color_identification, shape_identification, direction, relation) | image | `vlm_icl/data.py` | `kunwang0129/visual-reasoning-stresstest` |
-| `visual_reasoning_lens` | counting, color_identification, shape_identification | complex | image | `vlm_icl/data.py` | `kunwang0129/visual-reasoning-lens` |
-| `visual_reasoning_control` | color_identification, shape_identification | control, control2, expand | image | `vlm_icl/data.py` | `kunwang0129/visual-reasoning-control` |
+| `visual_reasoning` | direction, relation, counting, shape_identification, color_identification | simple, noprior, complex | image | `vlm_icl/data.py` | [`kunwang0129/visual-reasoning`](https://huggingface.co/datasets/kunwang0129/visual-reasoning) |
+| `visual_reasoning_stresstest` | counting, color_identification, shape_identification, direction, relation | simple, noprior, complex (counting); complex (color_identification, shape_identification, direction, relation) | image | `vlm_icl/data.py` | [`kunwang0129/visual-reasoning-stresstest`](https://huggingface.co/datasets/kunwang0129/visual-reasoning-stresstest) |
+| `visual_reasoning_lens` | counting, color_identification, shape_identification | complex | image | `vlm_icl/data.py` | [`kunwang0129/visual-reasoning-lens`](https://huggingface.co/datasets/kunwang0129/visual-reasoning-lens) |
+| `visual_reasoning_control` | color_identification, shape_identification | control, control2, expand | image | `vlm_icl/data.py` | [`kunwang0129/visual-reasoning-control`](https://huggingface.co/datasets/kunwang0129/visual-reasoning-control) |
 | `visual_reasoning_many` | counting, direction, relation | simple | image | `vlm_icl/data.py` | local only |
 | `visual_reasoning_sample` | same as `visual_reasoning` | simple, noprior, complex | image | `vlm_icl/data.py` | local only |
-| `blink` | 14 tasks (see below) | val, test, default | up to 4 images | `vlm_icl/blink.py` | upstream `BLINK-Benchmark/BLINK` |
+| `blink` | 14 tasks (see below) | val, test, default | up to 4 images | `vlm_icl/blink.py` | upstream [`BLINK-Benchmark/BLINK`](https://huggingface.co/datasets/BLINK-Benchmark/BLINK) |
 
 **BLINK tasks (14):** art_style, counting, forensic_detection, functional_correspondence, iq_test, jigsaw, multi_view_reasoning, object_localization, relative_depth, relative_reflectance, semantic_correspondence, spatial_relation, visual_correspondence, visual_similarity
 
@@ -130,15 +145,7 @@ Multi-image columns use `{bytes: None, path: None}` when no image is present.
 
 ## Data Sources
 
-Every experiment accepts `--data_root` and `--data_source {auto,local,hub}`.
-
-| `--data_source` | Behavior |
-|---|---|
-| `local` | Read Arrow files from `<data_root>/<dataset>` (default root: `data/`) |
-| `hub` | Read the Hub mirror of the dataset (`HUB_REPOS` in `vlm_icl/data.py`; BLINK: upstream `BLINK-Benchmark/BLINK`) |
-| `auto` (default) | `local` if `<data_root>/<dataset>` exists, else `hub`; `local` whenever `--data_root` is given |
-
-`visual_reasoning_many` and `visual_reasoning_sample` have no Hub mirror and need local files.
+See [Getting the data](#getting-the-data) for `--data_source`. `visual_reasoning_many` and `visual_reasoning_sample` have no Hub mirror and need local files.
 
 ### Hub mirrors
 
@@ -325,7 +332,7 @@ uv run python -m data_hf.convert_blink
 
 ## ICL Context Construction
 
-See `doc/ICL.md` for the full ICL pipeline: context pool building (`build_icl_context_pools()`), demo pool construction (`build_demo_pool()`), per-query selection (`select_from_demo_pool()`), GT guarantee helpers, answer shuffling/corruption, and prompt templates.
+See [ICL.md](ICL.md) for the full ICL pipeline: context pool building (`build_icl_context_pools()`), demo pool construction (`build_demo_pool()`), per-query selection (`select_from_demo_pool()`), GT guarantee helpers, answer shuffling/corruption, and prompt templates.
 
 ### ICL Image Processing: `process_icl_context_images()`
 

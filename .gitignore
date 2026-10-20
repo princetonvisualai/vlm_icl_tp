@@ -24,9 +24,6 @@ logs/
 # SLURM job logs
 slurm-*.out
 
-# Regression baselines captured from the reference repo
-dev/baselines/
-
 # Environment / secrets
 .env
 
@@ -38,6 +35,5 @@ dev/baselines/
 .DS_Store
 Thumbs.db
 
-# Personal planning notes (not part of the release)
-dev/2026-10-17_refactor_plan.md
-dev/rebuttal/
+# Local release-verification tools and notes
+dev/
